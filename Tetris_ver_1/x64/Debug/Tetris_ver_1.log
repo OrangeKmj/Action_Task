@@ -1,3 +1,0 @@
-﻿  Tetris.cpp
-C:\Users\action\Desktop\Tetris_ver_1\Tetris_ver_1\Tetris_ver_1\Tetris.h(1,1): warning C4828: 파일에 0x179c 오프셋에서 시작하는 문자가 포함되어 있습니다. 이 문자는 현재 원본 문자 집합에서 잘못된 문자입니다(코드 페이지 949).
-  Tetris_ver_1.vcxproj -> C:\Users\action\Desktop\Tetris_ver_1\Tetris_ver_1\x64\Debug\Tetris_ver_1.exe
