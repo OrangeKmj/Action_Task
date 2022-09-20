@@ -1,6 +1,6 @@
-#include "Tetris.h"
+ï»¿#include "Tetris.h"
 
-// -------------------------- »ı¼ºÀÚ  ¼Ò¸êÀÚ --------------------------
+// -------------------------- ìƒì„±ì  ì†Œë©¸ì --------------------------
 Tetris::Tetris(int speed)
 {
 	_tetroDescentSpeed = speed;
@@ -10,7 +10,7 @@ Tetris::Tetris(int speed)
 
 	_tetrisBoard.clear();
 
-	_checkTetroPosChange = true; // Å×Æ®·Î¹Ì³ë°¡ Ã³À½ º¸µå¿¡ »ı¼ºµÇ´Â °Íµµ À§Ä¡ º¯È­·Î °£ÁÖÇÏ¿© true·Î ÃÊ±âÈ­
+	_checkTetroPosChange = true; // í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ì²˜ìŒ ë³´ë“œì— ìƒì„±ë˜ëŠ” ê²ƒë„ ìœ„ì¹˜ ë³€í™”ë¡œ ê°„ì£¼í•˜ì—¬ trueë¡œ ì´ˆê¸°í™”
 
 	_tetroPattern.clear();
 
@@ -18,8 +18,8 @@ Tetris::Tetris(int speed)
 	_pressAKey = false;
 	_pressDKey = false;
 
-	_tetroPosX = 6; // Å×Æ®·Î¹Ì³ë°¡ »ı¼ºµÇ´Â À§Ä¡ÀÇ XÁÂÇ¥
-	_tetroPosY = 2; // Å×Æ®·Î¹Ì³ë°¡ »ı¼ºµÇ´Â À§Ä¡ÀÇ YÁÂÇ¥
+	_tetroPosX = 6; // í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ìƒì„±ë˜ëŠ” ìœ„ì¹˜ì˜ Xì¢Œí‘œ
+	_tetroPosY = 2; // í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ìƒì„±ë˜ëŠ” ìœ„ì¹˜ì˜ Yì¢Œí‘œ
 
 	_tetroRotationNum = 0;
 
@@ -45,25 +45,25 @@ Tetris::~Tetris()
 
 
 
-// ------------------------------ ÃÊ±âÈ­ ------------------------------
+// ------------------------------ ì´ˆê¸°í™” ------------------------------
 void Tetris::Init()
 {
-	// º¸µå ÃÊ±âÈ­
+	// ë³´ë“œ ì´ˆê¸°í™”
 	BoardInit();
 
-	// º¸µå Ãâ·Â
+	// ë³´ë“œ ì¶œë ¥
 	DrawBoard();
 
-	// Å×Æ®·Î¹Ì³ë ¼±ÅÃ
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ ì„ íƒ
 	SelectTetro();
 
-	// Å×Æ®·Î¹Ì³ë Ãâ·Â
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ ì¶œë ¥
 	DrawTetro();
 }
 
 
 
-// ------------------------------  ·çÇÁ  ------------------------------
+// ------------------------------  ë£¨í”„  ------------------------------
 void Tetris::ProcessInput()
 {
 	if (_kbhit())
@@ -86,37 +86,37 @@ void Tetris::ProcessInput()
 
 void Tetris::Update()
 {
-	// _checkTetroPosChange º¯¼ö¸¦ false·Î ÃÊ±âÈ­
+	// _checkTetroPosChange ë³€ìˆ˜ë¥¼ falseë¡œ ì´ˆê¸°í™”
 	CheckTetroPosChangeInit();
 
-	// Å×Æ®·Î¹Ì³ë¸¦ ½Ã°è¹æÇâÀ¸·Î È¸Àü
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ë¥¼ ì‹œê³„ë°©í–¥ìœ¼ë¡œ íšŒì „
 	RotateTetro();
 
-	// Å×Æ®·Î¹Ì³ë¸¦ ¿ŞÂÊÀ¸·Î ÀÌµ¿
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ë¥¼ ì™¼ìª½ìœ¼ë¡œ ì´ë™
 	MoveTetro_Left();
 
-	// Å×Æ®·Î¹Ì³ë¸¦ ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ë¥¼ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
 	MoveTetro_Right();
 
-	// Å×Æ®·Î¹Ì³ë ÇÏ°­
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ í•˜ê°•
 	TetroDescending();
 }
 
 void Tetris::Render()
 {
-	// º¸µå Ãâ·Â
+	// ë³´ë“œ ì¶œë ¥
 	DrawBoard();
 	
-	// Å×Æ®·Î¹Ì³ë Ãâ·Â
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ ì¶œë ¥
 	DrawTetro();
 
-	// _isGameOver°¡ trueÀÏ °æ¿ì GameOver¸¦ Ãâ·Â
+	// _isGameOverê°€ trueì¼ ê²½ìš° GameOverë¥¼ ì¶œë ¥
 	PrintGameOver();
 }
 
 
 
-// -------------------------- Ä¿¼­ À§Ä¡ º¯°æ --------------------------
+// -------------------------- ì»¤ì„œ ìœ„ì¹˜ ë³€ê²½ --------------------------
 void Tetris::CursorPos(int cursorPosX, int cursorPosY)
 {
 	COORD cursorPos = { static_cast<SHORT>(cursorPosX), static_cast<SHORT>(cursorPosY) };
@@ -125,10 +125,10 @@ void Tetris::CursorPos(int cursorPosX, int cursorPosY)
 
 
 
-// --------------------------- º¸µå  ÃÊ±âÈ­ ---------------------------
+// --------------------------- ë³´ë“œ  ì´ˆê¸°í™” ---------------------------
 void Tetris::BoardInit()
 {
-	// º¸µå Å©±â¸¸Å­ °ø¹éÀ¸·Î ÃÊ±âÈ­
+	// ë³´ë“œ í¬ê¸°ë§Œí¼ ê³µë°±ìœ¼ë¡œ ì´ˆê¸°í™”
 	for (int height = 0; height < _boardH; height++)
 	{
 		vector<string> inputValue;
@@ -140,27 +140,27 @@ void Tetris::BoardInit()
 		_tetrisBoard.push_back(inputValue);
 	}
 
-	// º®¿¡ ÇØ´çÇÏ´Â ºÎºĞÀ» ¡áÀ¸·Î ÃÊ±âÈ­
+	// ë²½ì— í•´ë‹¹í•˜ëŠ” ë¶€ë¶„ì„ â– ìœ¼ë¡œ ì´ˆê¸°í™”
 	for (int width = 0; width < _boardW; width++)
 	{
-		_tetrisBoard[0][width] = "¡á";
-		_tetrisBoard[1][width] = "¡á";
-		_tetrisBoard[_boardH - 2][width] = "¡á";
-		_tetrisBoard[_boardH - 1][width] = "¡á";
+		_tetrisBoard[0][width] = "â– ";
+		_tetrisBoard[1][width] = "â– ";
+		_tetrisBoard[_boardH - 2][width] = "â– ";
+		_tetrisBoard[_boardH - 1][width] = "â– ";
 	}
 
 	for (int height = 1; height < _boardH - 1; height++)
 	{
-		_tetrisBoard[height][0] = "¡á";
-		_tetrisBoard[height][1] = "¡á";
-		_tetrisBoard[height][_boardW - 2] = "¡á";
-		_tetrisBoard[height][_boardW - 1] = "¡á";
+		_tetrisBoard[height][0] = "â– ";
+		_tetrisBoard[height][1] = "â– ";
+		_tetrisBoard[height][_boardW - 2] = "â– ";
+		_tetrisBoard[height][_boardW - 1] = "â– ";
 	}
 }
 
 
 
-// ---------------------------- º¸µå  Ãâ·Â ----------------------------
+// ---------------------------- ë³´ë“œ  ì¶œë ¥ ----------------------------
 void Tetris::DrawBoard()
 {
 	if (_checkTetroPosChange == true)
@@ -180,7 +180,7 @@ void Tetris::DrawBoard()
 
 
 
-// ------------------------- Å×Æ®·Î¹Ì³ë  ¼±ÅÃ -------------------------
+// ------------------------- í…ŒíŠ¸ë¡œë¯¸ë…¸  ì„ íƒ -------------------------
 void Tetris::SelectTetro()
 {
 	int randValue = rand() % 7;
@@ -213,25 +213,25 @@ void Tetris::SelectTetro()
 
 
 
-// ------------------------- Å×Æ®·Î¹Ì³ë  Ãâ·Â -------------------------
+// ------------------------- í…ŒíŠ¸ë¡œë¯¸ë…¸  ì¶œë ¥ -------------------------
 void Tetris::DrawTetro()
 {
-	// Å×Æ®·Î¹Ì³ëÀÇ À§Ä¡°¡ º¯°æ‰çÀ» ¶§ Ãâ·Â
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ì˜ ìœ„ì¹˜ê°€ ë³€ê²½ë¬ì„ ë•Œ ì¶œë ¥
 	if (_checkTetroPosChange == true)
 	{
 		for (int tetroNum = 0; tetroNum < 4; tetroNum++)
 		{
-			int cursorPosX = _tetroPattern[_tetroRotationNum][tetroNum][0] + (_tetroPosX * 2); // ¡à, ¡á, ¢Ã ¹®ÀÚ°¡ Ä¿¼­ 2Ä­À» Â÷ÁöÇÔÀ¸·Î * 2
+			int cursorPosX = _tetroPattern[_tetroRotationNum][tetroNum][0] + (_tetroPosX * 2); // â–¡, â– , â–£ ë¬¸ìê°€ ì»¤ì„œ 2ì¹¸ì„ ì°¨ì§€í•¨ìœ¼ë¡œ * 2
 			int cursorPosY = _tetroPattern[_tetroRotationNum][tetroNum][1] + _tetroPosY;
 			CursorPos(cursorPosX, cursorPosY);
-			cout << "¡à";
+			cout << "â–¡";
 		}
 	}
 }
 
 
 
-// --------------------------- Å° ÀÔ·Â È®ÀÎ ---------------------------
+// --------------------------- í‚¤ ì…ë ¥ í™•ì¸ ---------------------------
 void Tetris::PressSpaceBarKey()
 {
 	_pressSpaceBarKey = true;
@@ -249,7 +249,7 @@ void Tetris::PressDKey()
 
 
 
-// ------------ _checkTetroPosChange º¯¼ö¸¦ false·Î ÃÊ±âÈ­ ------------
+// ------------ _checkTetroPosChange ë³€ìˆ˜ë¥¼ falseë¡œ ì´ˆê¸°í™” ------------
 void Tetris::CheckTetroPosChangeInit()
 {
 	_checkTetroPosChange = false;
@@ -257,18 +257,18 @@ void Tetris::CheckTetroPosChangeInit()
 
 
 
-// ------------ Á¶ÀÛÅ°·Î Å×Æ®·Î¹Ì³ë¸¦  È¸Àü ¹× ÁÂ¿ì·Î ÀÌµ¿ ------------
+// ------------ ì¡°ì‘í‚¤ë¡œ í…ŒíŠ¸ë¡œë¯¸ë…¸ë¥¼  íšŒì „ ë° ì¢Œìš°ë¡œ ì´ë™ ------------
 void Tetris::RotateTetro()
 {
 	if (_pressSpaceBarKey == true)
 	{
 		_pressSpaceBarKey = false;
 
-		int temp = _tetroRotationNum; // È¸ÀüÇÒ ¼ö ¾ø´Â »óÈ²À» ¹æÁöÇÏ¿© È¸ÀüÇÏ±â Àü È¸Àü ¹øÈ£¸¦ temp¿¡ ÀúÀå
+		int temp = _tetroRotationNum; // íšŒì „í•  ìˆ˜ ì—†ëŠ” ìƒí™©ì„ ë°©ì§€í•˜ì—¬ íšŒì „í•˜ê¸° ì „ íšŒì „ ë²ˆí˜¸ë¥¼ tempì— ì €ì¥
 		_tetroRotationNum = (_tetroRotationNum + 1) % 4;
 		CheckSpaceWhenRotating();
 
-		// È¸ÀüÇÒ ¼ö ¾ø´Â °æ¿ì
+		// íšŒì „í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 		if (_checkWall == true) 
 		{
 			_tetroRotationNum = temp;
@@ -286,7 +286,7 @@ void Tetris::MoveTetro_Left()
 		_tetroPosX--;
 		CheckSpaceWhenMove();
 
-		// ¿ŞÂÊÀ¸·Î ÀÌµ¿ÇÒ ¼ö ¾ø´Â °æ¿ì
+		// ì™¼ìª½ìœ¼ë¡œ ì´ë™í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 		if (_checkWall == true)
 		{
 			_tetroPosX++;
@@ -304,7 +304,7 @@ void Tetris::MoveTetro_Right()
 		_tetroPosX++;
 		CheckSpaceWhenMove();
 
-		// ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ÇÒ ¼ö ¾ø´Â °æ¿ì
+		// ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 		if (_checkWall == true)
 		{
 			_tetroPosX--;
@@ -315,7 +315,7 @@ void Tetris::MoveTetro_Right()
 
 
 
-// - Å×Æ®·Î¹Ì³ë°¡ ÀÌµ¿ÇÒ °ø°£¿¡ ÀúÀåµÈ Å×Æ®·Î¹Ì³ë ¹× º®ÀÌ ÀÖ´ÂÁö È®ÀÎ -
+// - í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ì´ë™í•  ê³µê°„ì— ì €ì¥ëœ í…ŒíŠ¸ë¡œë¯¸ë…¸ ë° ë²½ì´ ìˆëŠ”ì§€ í™•ì¸ -
 void Tetris::CheckSpaceWhenRotating()
 {
 	int rotationPosNum = 0;
@@ -327,7 +327,7 @@ void Tetris::CheckSpaceWhenRotating()
 			int pos_X = (_tetroPattern[_tetroRotationNum][tetroNum][0] / 2) + _tetroPosX + tetroRotationPos[rotationPosNum][0];
 			int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + _tetroPosY + tetroRotationPos[rotationPosNum][1];
 
-			// Å×Æ®·Î¹Ì³ë°¡ º®À» ³Ñ¾î°¬À» °æ¿ì
+			// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë²½ì„ ë„˜ì–´ê°”ì„ ê²½ìš°
 			if (pos_X < 2 || pos_X > 11 || pos_Y < 2 || pos_Y > 21)
 			{
 				_checkWall = true;
@@ -335,8 +335,8 @@ void Tetris::CheckSpaceWhenRotating()
 				break;
 			}
 
-			// Å×Æ®·Î¹Ì³ë°¡ ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÃÆÀ» °æ¿ì
-			if (_tetrisBoard[pos_Y][pos_X].compare("¢Ã") == 0)
+			// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì³¤ì„ ê²½ìš°
+			if (_tetrisBoard[pos_Y][pos_X].compare("â–£") == 0)
 			{
 				_checkWall = true;
 				rotationPosNum++;
@@ -346,7 +346,7 @@ void Tetris::CheckSpaceWhenRotating()
 			_checkWall = false;
 		}
 
-		// º® ¶Ç´Â ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÄ¡Áö ¾Ê¾ÒÀ» °æ¿ì
+		// ë²½ ë˜ëŠ” ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì¹˜ì§€ ì•Šì•˜ì„ ê²½ìš°
 		if (_checkWall == false)
 		{
 			_tetroPosX += tetroRotationPos[rotationPosNum][0];
@@ -366,15 +366,15 @@ void Tetris::CheckSpaceWhenMove()
 		int pos_X = (_tetroPattern[_tetroRotationNum][tetroNum][0] / 2) + _tetroPosX;
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + _tetroPosY;
 
-		// Å×Æ®·Î¹Ì³ë°¡ º® ¶Ç´Â ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÃÆÀ» °æ¿ì
-		if (_tetrisBoard[pos_Y][pos_X].compare("¡á") == 0 || _tetrisBoard[pos_Y][pos_X].compare("¢Ã") == 0)
+		// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë²½ ë˜ëŠ” ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì³¤ì„ ê²½ìš°
+		if (_tetrisBoard[pos_Y][pos_X].compare("â– ") == 0 || _tetrisBoard[pos_Y][pos_X].compare("â–£") == 0)
 		{
 			_checkWall = true;
 			break;
 		}
 	}
 
-	// Å×Æ®·Î¹Ì³ë°¡ º® ¶Ç´Â ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÄ¡Áö ¾Ê¾ÒÀ» °æ¿ì
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë²½ ë˜ëŠ” ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì¹˜ì§€ ì•Šì•˜ì„ ê²½ìš°
 	if (_checkWall == false)
 	{
 		_checkTetroPosChange = true;
@@ -383,16 +383,16 @@ void Tetris::CheckSpaceWhenMove()
 
 
 
-// ------------------------- Å×Æ®·Î¹Ì³ë  ÇÏ°­ -------------------------
+// ------------------------- í…ŒíŠ¸ë¡œë¯¸ë…¸  í•˜ê°• -------------------------
 void Tetris::TetroDescending()
 {
-	DWORD curTime = timeGetTime(); // ÇöÀç ½Ã°£
-	float timeDelta = (curTime - _lastTime) * 0.001f; // ½Ã°£À» 1ÃÊ ´ÜÀ§·Î º¯È¯
+	DWORD curTime = timeGetTime(); // í˜„ì¬ ì‹œê°„
+	float timeDelta = (curTime - _lastTime) * 0.001f; // ì‹œê°„ì„ 1ì´ˆ ë‹¨ìœ„ë¡œ ë³€í™˜
 
 	_timeElapsed += timeDelta;
 	_lastTime = curTime;
 
-	// 1.0f / _tetroDescentSpeed¸¸Å­ ½Ã°£ÀÌ Èå¸£¸é AutoMoveTetro_Down()À» ½ÇÇà
+	// 1.0f / _tetroDescentSpeedë§Œí¼ ì‹œê°„ì´ íë¥´ë©´ AutoMoveTetro_Down()ì„ ì‹¤í–‰
 	if (_timeElapsed >= 1.0f / _tetroDescentSpeed)
 	{
 		_timeElapsed = 0.0f;
@@ -407,7 +407,7 @@ void Tetris::AutoMoveTetro_Down()
 	_tetroPosY++;
 	CheckSpaceWhenDescent();
 
-	// ¾Æ·¡·Î ÀÌµ¿ÇÒ ¼ö ¾ø´Â °æ¿ì
+	// ì•„ë˜ë¡œ ì´ë™í•  ìˆ˜ ì—†ëŠ” ê²½ìš°
 	if (_checkWall == true)
 	{
 		_tetroPosY--;
@@ -424,31 +424,31 @@ void Tetris::CheckSpaceWhenDescent()
 		int pos_X = (_tetroPattern[_tetroRotationNum][tetroNum][0] / 2) + _tetroPosX;
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + _tetroPosY;
 
-		// Å×Æ®·Î¹Ì³ë°¡ º® ¶Ç´Â ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÃÆÀ» °æ¿ì
-		if (_tetrisBoard[pos_Y][pos_X].compare("¡á") == 0 || _tetrisBoard[pos_Y][pos_X].compare("¢Ã") == 0)
+		// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë²½ ë˜ëŠ” ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì³¤ì„ ê²½ìš°
+		if (_tetrisBoard[pos_Y][pos_X].compare("â– ") == 0 || _tetrisBoard[pos_Y][pos_X].compare("â–£") == 0)
 		{
 			_checkWall = true;
-			_contactTetroOrFloor = true; // Å×Æ®·Î¹Ì³ë ¶Ç´Â ¹Ù´Ú°ú Á¢ÃËÀÌ true
+			_contactTetroOrFloor = true; // í…ŒíŠ¸ë¡œë¯¸ë…¸ ë˜ëŠ” ë°”ë‹¥ê³¼ ì ‘ì´‰ì´ true
 			break;
 		}
 	}
 
-	// Å×Æ®·Î¹Ì³ë°¡ º® ¶Ç´Â ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÄ¡Ä¡ ¾Ê¾ÒÀ» °æ¿ì
+	// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë²½ ë˜ëŠ” ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì¹˜ì¹˜ ì•Šì•˜ì„ ê²½ìš°
 	if (_checkWall == false)
 	{
-		_contactTetroOrFloor = false; // Å×Æ®·Î¹Ì³ë ¶Ç´Â ¹Ù´Ú°ú Á¢ÃËÀÌ false
+		_contactTetroOrFloor = false; // í…ŒíŠ¸ë¡œë¯¸ë…¸ ë˜ëŠ” ë°”ë‹¥ê³¼ ì ‘ì´‰ì´ false
 		_checkTetroPosChange = true;
 	}
 }
 
 
 
-// --- Å×Æ®·Î¹Ì³ë°¡ ´Ù¸¥ Å×Æ®·Î¹Ì³ë ¶Ç´Â  ¹Ù´Ú¿¡ Á¢ÃËÇÑ ½Ã°£À» È®ÀÎ ---
+// --- í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ ë˜ëŠ”  ë°”ë‹¥ì— ì ‘ì´‰í•œ ì‹œê°„ì„ í™•ì¸ ---
 void Tetris::CheckContactTime()
 {
 	if (_contactTetroOrFloor == true)
 	{
-		// ÇØ´ç ÇÔ¼ö¿¡ µé¾î¿Ã ¶§¸¶´Ù ÃÊ±âÈ­µÇ´Â °ÍÀ» ¹æÁö
+		// í•´ë‹¹ í•¨ìˆ˜ì— ë“¤ì–´ì˜¬ ë•Œë§ˆë‹¤ ì´ˆê¸°í™”ë˜ëŠ” ê²ƒì„ ë°©ì§€
 		if (_preventInit == false)
 		{
 			_preventInit = true;
@@ -456,12 +456,12 @@ void Tetris::CheckContactTime()
 			_lastTimeSinceContact = timeGetTime();
 		}
 
-		DWORD curTimeSinceContact = timeGetTime(); // Á¢ÃË ÈÄ ÇöÀç ½Ã°£
-		float timeDeltaSinceContact = (curTimeSinceContact - _lastTimeSinceContact) * 0.001f; // ÇÁ·¹ÀÓÀ» 1ÃÊ ´ÜÀ§·Î º¯È¯
+		DWORD curTimeSinceContact = timeGetTime(); // ì ‘ì´‰ í›„ í˜„ì¬ ì‹œê°„
+		float timeDeltaSinceContact = (curTimeSinceContact - _lastTimeSinceContact) * 0.001f; // í”„ë ˆì„ì„ 1ì´ˆ ë‹¨ìœ„ë¡œ ë³€í™˜
 
 		_timeElapsedSinceContact += timeDeltaSinceContact;
 
-		// 1.0f / 4 ¸¸Å­ ½Ã°£ÀÌ Èå¸£¸é TetroStorage()À» ½ÇÇà
+		// 1.0f / 4 ë§Œí¼ ì‹œê°„ì´ íë¥´ë©´ TetroStorage()ì„ ì‹¤í–‰
 		if (_timeElapsedSinceContact >= 1.0f / 4)
 		{
 			_contactTetroOrFloor = false;
@@ -479,14 +479,14 @@ void Tetris::CheckContactTime()
 
 
 
-// --------------------- Å×Æ®·Î¹Ì³ë¸¦ º¸µå¿¡ ÀúÀå ---------------------
+// --------------------- í…ŒíŠ¸ë¡œë¯¸ë…¸ë¥¼ ë³´ë“œì— ì €ì¥ ---------------------
 void Tetris::TetroStorage()
 {
 	for (int tetroNum = 0; tetroNum < 4; tetroNum++)
 	{
 		int pos_X = (_tetroPattern[_tetroRotationNum][tetroNum][0] / 2) + _tetroPosX;
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + _tetroPosY;
-		_tetrisBoard[pos_Y][pos_X] = "¢Ã";
+		_tetrisBoard[pos_Y][pos_X] = "â–£";
 	}
 	_checkTetroPosChange = true;
 
@@ -499,7 +499,7 @@ void Tetris::TetroStorage()
 
 
 
-// ---------------------- Å×Æ®·Î¹Ì³ë À§Ä¡ ÃÊ±âÈ­ ----------------------
+// ---------------------- í…ŒíŠ¸ë¡œë¯¸ë…¸ ìœ„ì¹˜ ì´ˆê¸°í™” ----------------------
 void Tetris::TetroPosInit()
 {
 	_tetroPattern.clear();
@@ -512,7 +512,7 @@ void Tetris::TetroPosInit()
 
 
 
-// ------- ºóÆ´¾øÀÌ Ã¤¿öÁø °¡·ÎÁÙÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ°í ÀÖÀ¸¸é Á¦°Å -------
+// ------- ë¹ˆí‹ˆì—†ì´ ì±„ì›Œì§„ ê°€ë¡œì¤„ì´ ìˆëŠ”ì§€ í™•ì¸í•˜ê³  ìˆìœ¼ë©´ ì œê±° -------
 void Tetris::CheckLine()
 {
 	for (int height = 2; height < _boardH - 2; height++)
@@ -521,7 +521,7 @@ void Tetris::CheckLine()
 
 		for (int width = 2; width < _boardW - 2; width++)
 		{
-			if (_tetrisBoard[height][width].compare("¢Ã") == 0)
+			if (_tetrisBoard[height][width].compare("â–£") == 0)
 			{
 				checkTetroCount++;
 			}
@@ -536,13 +536,13 @@ void Tetris::CheckLine()
 
 void Tetris::LineSwap(int lineNum)
 {
-	// lineNum ¹øÂ° ÁÙÀ» °ø¹éÀ¸·Î º¯°æ
+	// lineNum ë²ˆì§¸ ì¤„ì„ ê³µë°±ìœ¼ë¡œ ë³€ê²½
 	for (int width = 2; width < _boardW - 2; width++)
 	{
 		_tetrisBoard[lineNum][width] = "  ";
 	}
 
-	// lineNum ¹øÂ° ÁÙÀ» lineNum - 1 ¹øÂ° ÁÙÇÏ°í ¹Ù²Ş
+	// lineNum ë²ˆì§¸ ì¤„ì„ lineNum - 1 ë²ˆì§¸ ì¤„í•˜ê³  ë°”ê¿ˆ
 	for (int row = lineNum; row > 2; row--)
 	{
 		vector<string> temp;
@@ -566,7 +566,7 @@ void Tetris::LineSwap(int lineNum)
 
 
 
-// -------------------------- °ÔÀÓ¿À¹ö  È®ÀÎ --------------------------
+// -------------------------- ê²Œì„ì˜¤ë²„  í™•ì¸ --------------------------
 void Tetris::CheckGameOver()
 {
 	for (int tetroNum = 0; tetroNum < 4; tetroNum++)
@@ -574,8 +574,8 @@ void Tetris::CheckGameOver()
 		int pos_X = (_tetroPattern[_tetroRotationNum][tetroNum][0] / 2) + _tetroPosX;
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + _tetroPosY;
 
-		// Å×Æ®·Î¹Ì³ë°¡ »ı¼ºµÇÀÚ¸¶ÀÚ ´Ù¸¥ Å×Æ®·Î¹Ì³ë¿Í °ãÃÄÀÖÀ» °æ¿ì
-		if (_tetrisBoard[pos_Y][pos_X].compare("¢Ã") == 0)
+		// í…ŒíŠ¸ë¡œë¯¸ë…¸ê°€ ìƒì„±ë˜ìë§ˆì ë‹¤ë¥¸ í…ŒíŠ¸ë¡œë¯¸ë…¸ì™€ ê²¹ì³ìˆì„ ê²½ìš°
+		if (_tetrisBoard[pos_Y][pos_X].compare("â–£") == 0)
 		{
 			_isGameOver = true;
 			break;
@@ -590,7 +590,7 @@ bool Tetris::IsGameOver()
 
 
 
-// -------------------------- °ÔÀÓ¿À¹ö  Ãâ·Â --------------------------
+// -------------------------- ê²Œì„ì˜¤ë²„  ì¶œë ¥ --------------------------
 void Tetris::PrintGameOver()
 {
 	if (_isGameOver == true)
@@ -602,8 +602,8 @@ void Tetris::PrintGameOver()
 
 
 
-// ----------------------------- Å¬·¡½º¹Û -----------------------------
-// °ÔÀÓ ½ÇÇà
+// ----------------------------- í´ë˜ìŠ¤ë°– -----------------------------
+// ê²Œì„ ì‹¤í–‰
 void Run(int speed)
 {
 	CursorHide();
@@ -621,7 +621,7 @@ void Run(int speed)
 	}
 }
 
-// Ä¿¼­ ¼û±â±â
+// ì»¤ì„œ ìˆ¨ê¸°ê¸°
 void CursorHide()
 {
 	CONSOLE_CURSOR_INFO consoleCursor;
@@ -630,16 +630,16 @@ void CursorHide()
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleCursor);
 }
 
-// Å×Æ®·Î¹Ì³ë ÇÏ°­ ¼Óµµ Á¦ÇÑ
+// í…ŒíŠ¸ë¡œë¯¸ë…¸ í•˜ê°• ì†ë„ ì œí•œ
 int TetroDescentSpeedLimit(int speed)
 {
-	// ÇÏ°­ ¼Óµµ°¡ 1º¸´Ù ÀÛÀ» °æ¿ì
+	// í•˜ê°• ì†ë„ê°€ 1ë³´ë‹¤ ì‘ì„ ê²½ìš°
 	if (speed < 1)
 	{
 		speed = 1;
 	}
 
-	// ÇÏ°­ ¼Óµµ°¡ 10º¸´Ù Å¬ °æ¿ì
+	// í•˜ê°• ì†ë„ê°€ 10ë³´ë‹¤ í´ ê²½ìš°
 	if (speed > 10)
 	{
 		speed = 10;
