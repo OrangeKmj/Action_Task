@@ -6,16 +6,16 @@
 #pragma comment(lib, "winmm.lib")
 using namespace std;
 
-// ----------------------------- UI 보드 크기 -----------------------------
-enum UIBoardSize
+// ---------------------- 테트리스 경계선  보드 크기 ----------------------
+enum BorderLineBoardSize
 {
-	WIDTH_UI = 12,
-	HEIGHT_UI = 22
+	WIDTH_BORDER = 12,
+	HEIGHT_BORDER = 22
 };
 
 
 
-// ------------------------- 화면, 로직 보드 크기 -------------------------
+// -------------------- 테트리스 화면,  로직 보드 크기 --------------------
 enum ScreenAndLogicBoardSize
 {
 	WIDTH = 10,
@@ -24,7 +24,7 @@ enum ScreenAndLogicBoardSize
 
 
 
-// ---------------------------------- 키 ----------------------------------
+// ------------------------------- 입력  키 -------------------------------
 enum GetKey
 {
 	GETKEY_SPACE = 32,
@@ -125,13 +125,13 @@ public:
 
 
 
-	// --------------------------- 보드  초기화 ---------------------------
+	// ----------------------- 테트리스 보드 초기화 -----------------------
 	void BoardInit();
 
 
 
-	// ---------------------------- 보드  출력 ----------------------------
-	void DrawUIBoard();
+	// ------------------------ 테트리스 보드 출력 ------------------------
+	void DrawBorderLineBoard();
 
 	void DrawScreenBoard();
 
@@ -191,7 +191,7 @@ public:
 
 
 
-	// --------------------- 테트로미노를 보드에 저장 ---------------------
+	// ---------- 테트로미노를 테트리스 로직 및  화면 보드에 저장 ----------
 	void TetroStorage();
 
 	
@@ -222,31 +222,31 @@ private:
 	// ---------------------------- 멤버  변수 ----------------------------
 	int _tetroDescentSpeed; // 테트로미노 하강 속도
 
-	int _uiBoardW; // UI 보드 가로 길이
-	int _uiBoardH; // UI 보드 세로 길이
+	int _borderLineBoardW; // 테트리스 경계선 보드 가로 길이
+	int _borderLineBoardH; // 테트리스 경계선 보드 세로 길이
 
-	vector<vector<string>> _tetrisUIBoard; // 테트리스 UI 보드
+	vector<vector<string>> _tetrisBorderLineBoard; // 테트리스 경계선 보드
 
-	int _boardW; // 보드 가로 길이
-	int _boardH; // 보드 세로 길이
+	int _boardW; // 테트리스 화면 및 로직 보드 가로 길이
+	int _boardH; // 테트리스 화면 및 로직 보드 세로 길이
 
 	vector<vector<string>> _tetrisScreenBoard; // 테트리스 화면 보드
 	vector<vector<string>> _tetrisLogicBoard; // 테트리스 로직 보드
 
-	// [만약 테트리스 UI 보드의 크기를 키워서 테트리스 화면 보드를 옮기고 싶으면 _screenBoardStartPos를 변경]
-	int _screenBoardStartPosX; // 테트리스 화면이 출력되는 시작 X 좌표 
-	int _screenBoardStartPosY; // 테트리스 화면이 출력되는 시작 Y 좌표
+	// [만약 테트리스 경계선 보드 크기를 키워서 테트리스 화면 보드를 옮기고 싶으면 _screenBoardStartPos를 변경]
+	int _screenBoardStartPosX; // 테트리스 화면 보드가 출력되는 시작 X 좌표 
+	int _screenBoardStartPosY; // 테트리스 화면 보드가 출력되는 시작 Y 좌표
 
 	bool _checkTetroPosChange; // 테트로미노 위치가 변경되었는지 확인
 
-	vector<vector<vector<int>>> _tetroPattern; // 보드에 출력되는 테트로미노
+	vector<vector<vector<int>>> _tetroPattern; // 화면에 출력되는 테트로미노
 
 	bool _pressSpaceBarKey; // 스페이스바를 눌렀는지 확인
 	bool _pressAKey; // A를 눌렀는지 확인
 	bool _pressDKey; // D를 눌렀는지 확인
 
-	int _tetroPosX; // 생성된 테트로미노의 중심의 X좌표
-	int _tetroPosY; // 생성된 테트로미노의 중심의 Y좌표
+	int _tetroPosX; // 생성된 테트로미노의 중심 칸의 X좌표
+	int _tetroPosY; // 생성된 테트로미노의 중심 칸의 Y좌표
 
 	int _tetroRotationNum; // 생성된 테트로미노의 회전 번호
 
@@ -260,7 +260,7 @@ private:
 	float _timeElapsedSinceContact; // 접촉 후 흐른 시간
 	DWORD _lastTimeSinceContact; // 접촉 후 지난 시간
 
-	bool _preventInit; // 초기화를 방지하기 위한 변수
+	bool _preventInit; // 초기화 방지를 위한 변수
 
 	bool _isGameOver; // 게임오버 확인
 };
@@ -272,4 +272,4 @@ void Run(int speed); // 게임실행
 
 void CursorHide(); // 커서 숨기기
 
-int TetroDescentSpeedLimit(int speed); // 테트로미노 하강 속도 제한
+int TetroDescentSpeedLimit(int speed); // 테트로미노 시작 하강 속도 제한
