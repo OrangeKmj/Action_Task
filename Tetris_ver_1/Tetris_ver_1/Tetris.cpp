@@ -192,7 +192,9 @@ void Tetris::DrawScreenBoard()
 		{
 			// UI 보드 안에 화면 보드를 넣기 위해 커서 위치를 Y 좌표가 변경될 때마다 재설정
 			// ■, ▣ 문자가 커서를 2칸 차지함으로 시작 X 좌표에 * 2 
-			CursorPos(0 + (_screenBoardStartPosX * 2), 0 + (_screenBoardStartPosY + height)); 
+			int cursorPosX = 0 + (_screenBoardStartPosX * 2);
+			int cursorPosY = 0 + (_screenBoardStartPosY + height);
+			CursorPos(cursorPosX, cursorPosY); 
 									  
 			for (int width = 0; width < _boardW; width++)
 			{
@@ -650,7 +652,9 @@ void Tetris::PrintGameOver()
 {
 	if (_isGameOver == true)
 	{
-		CursorPos(0, (_borderLineBoardH + 1));
+		int cursorPosY = _borderLineBoardH + 1;
+		CursorPos(0, cursorPosY);
+
 		cout << "GameOver~~~~~" << endl;
 	}
 }
