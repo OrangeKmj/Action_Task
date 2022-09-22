@@ -158,7 +158,7 @@ void Tetris::BoardInit()
 	{
 		vector<string> inputValue;
 
-		for (int width = 0; width < _boardH; width++)
+		for (int width = 0; width < _boardW; width++)
 		{
 			inputValue.push_back("  ");
 		}
