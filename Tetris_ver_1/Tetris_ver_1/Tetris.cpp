@@ -28,7 +28,7 @@ Tetris::Tetris(int speed)
 	_pressAKey = false;
 	_pressDKey = false;
 
-	_tetroPosX = 4 + _screenBoardStartPosX; // 테트로미노가 생성되는 위치의 X좌표
+	_tetroPosX = ((_boardW / 2) - 1) + _screenBoardStartPosX; // 테트로미노가 생성되는 위치의 X좌표
 	_tetroPosY = 0 + _screenBoardStartPosY; // 테트로미노가 생성되는 위치의 Y좌표
 
 	_tetroRotationNum = 0;
@@ -355,7 +355,7 @@ void Tetris::CheckSpaceWhenRotating()
 			int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY) + tetroRotationPos[rotationPosNum][1]; 
 			                                                                                                                                        
 			// 테트로미노가 테트리스 로직 벡터 밖으로 넘어갔을 경우
-			if (pos_X < 0 || pos_X > 9 || pos_Y < 0 || pos_Y > 19)
+			if (pos_X < 0 || pos_X > (_boardW - 1) || pos_Y < 0 || pos_Y > (_boardH - 1))
 			{
 				_checkWall = true;
 				rotationPosNum++;
@@ -396,7 +396,7 @@ void Tetris::CheckSpaceWhenMove()
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY);
 																					  
 		// 테트로미노가 테트리스 로직 벡터 밖으로 넘어갔을 경우
-		if (pos_X < 0 || pos_X > 9)
+		if (pos_X < 0 || pos_X > (_boardW - 1))
 		{
 			_checkWall = true;
 			break;
@@ -463,7 +463,7 @@ void Tetris::CheckSpaceWhenDescent()
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY);
 	
 		// 테트로미노가 테트리스 로직 벡터 밖으로 넘어갔을 경우
-		if (pos_Y < 0 || pos_Y > 19)
+		if (pos_Y < 0 || pos_Y > (_boardH - 1))
 		{
 			_checkWall = true;
 			_contactTetroOrFloor = true; // 테트로미노 또는 바닥과 접촉을 확인
@@ -556,7 +556,7 @@ void Tetris::TetroStorage()
 void Tetris::TetroPosInit()
 {
 	_tetroPattern.clear();
-	_tetroPosX = 4 + _screenBoardStartPosX;
+	_tetroPosX = ((_boardW / 2) - 1) + _screenBoardStartPosX;
 	_tetroPosY = 0 + _screenBoardStartPosY;
 	_tetroRotationNum = 0;
 
@@ -579,7 +579,7 @@ void Tetris::CheckLine()
 				checkTetroCount++;
 			}
 
-			if (checkTetroCount == 10)
+			if (checkTetroCount == _boardW)
 			{
 				LineSwap(height);
 			}
@@ -650,7 +650,7 @@ void Tetris::PrintGameOver()
 {
 	if (_isGameOver == true)
 	{
-		CursorPos(0, 25);
+		CursorPos(0, (_borderLineBoardH + 1));
 		cout << "GameOver~~~~~" << endl;
 	}
 }
