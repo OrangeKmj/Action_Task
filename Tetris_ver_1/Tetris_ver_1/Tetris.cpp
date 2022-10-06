@@ -28,6 +28,8 @@ Tetris::Tetris(int speed)
 	_pressAKey = false;
 	_pressDKey = false;
 
+	_pressCKey = false;
+
 	_tetroPosX = ((_boardW / 2) - 1) + _screenBoardStartPosX; // 테트로미노가 생성되는 위치의 X좌표
 	_tetroPosY = 0 + _screenBoardStartPosY; // 테트로미노가 생성되는 위치의 Y좌표
 
@@ -46,6 +48,12 @@ Tetris::Tetris(int speed)
 	_preventInit = false;
 
 	_isGameOver = false;
+
+	rotstop = 0;
+
+	max_weight_idx = 0;
+
+	memset(map, 0, sizeof(map));
 }
 
 Tetris::~Tetris()
@@ -94,6 +102,15 @@ void Tetris::ProcessInput()
 		{
 			PressDKey();
 		}
+		//키보드 이벤트 추가
+		else if (key == GetKey::GETKEY_C || key == GetKey::GETKEY_c)
+		{
+			PressCKey();
+		}
+		else if (key == GetKey::GETKEY_P || key == GetKey::GETKEY_p)
+		{
+			PressPKey();
+		}
 	}
 }
 
@@ -101,6 +118,8 @@ void Tetris::Update()
 {
 	// _checkTetroPosChange 변수를 false로 초기화
 	CheckTetroPosChangeInit();
+
+	controlAi();
 
 	// 테트로미노를 시계방향으로 회전
 	RotateTetro();
@@ -119,12 +138,14 @@ void Tetris::Render()
 {
 	// 테트리스 화면 보드 출력
 	DrawScreenBoard();
-	
+
 	// 테트로미노 출력
 	DrawTetro();
 
 	// _isGameOver가 true일 경우 GameOver를 출력
 	PrintGameOver();
+
+	showKeySet(); //조작키 출력
 }
 
 
@@ -194,8 +215,8 @@ void Tetris::DrawScreenBoard()
 			// ■, ▣ 문자가 커서를 2칸 차지함으로 시작 X 좌표에 * 2 
 			int cursorPosX = _screenBoardStartPosX * 2;
 			int cursorPosY = _screenBoardStartPosY + height;
-			CursorPos(cursorPosX, cursorPosY); 
-									  
+			CursorPos(cursorPosX, cursorPosY);
+
 			for (int width = 0; width < _boardW; width++)
 			{
 				cout << _tetrisScreenBoard[height][width];
@@ -205,7 +226,7 @@ void Tetris::DrawScreenBoard()
 	}
 }
 
- 
+
 
 // ------------------------- 테트로미노  선택 -------------------------
 void Tetris::SelectTetro()
@@ -296,7 +317,7 @@ void Tetris::RotateTetro()
 		CheckSpaceWhenRotating();
 
 		// 회전할 수 없는 경우
-		if (_checkWall == true) 
+		if (_checkWall == true)
 		{
 			_tetroRotationNum = temp;
 			_checkWall = false;
@@ -354,10 +375,10 @@ void Tetris::CheckSpaceWhenRotating()
 			// 원래는 테트리스 경계선 벡터 기준으로 테트로미노가 생성되나
 			// 테트리스 로직 벡터 기준으로 테트로미노를 보기 위해서 _tetroPosX - _screenBoardStartPosX, _tetroPosY - _screenBoardStartPosY
 			int pos_X = _tetroPattern[_tetroRotationNum][tetroNum][0] + (_tetroPosX - _screenBoardStartPosX) + tetroRotationPos[rotationPosNum][0];
-			int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY) + tetroRotationPos[rotationPosNum][1]; 
-			                                                                                                                                        
+			int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY) + tetroRotationPos[rotationPosNum][1];
+
 			// 테트로미노가 테트리스 로직 벡터 밖으로 넘어갔을 경우
-			if (pos_X < 0 || pos_X > (_boardW - 1) || pos_Y < 0 || pos_Y > (_boardH - 1))
+			if (pos_X < 0 || pos_X >(_boardW - 1) || pos_Y < 0 || pos_Y >(_boardH - 1))
 			{
 				_checkWall = true;
 				rotationPosNum++;
@@ -385,7 +406,7 @@ void Tetris::CheckSpaceWhenRotating()
 		}
 	}
 
-	
+
 }
 
 void Tetris::CheckSpaceWhenMove()
@@ -396,9 +417,9 @@ void Tetris::CheckSpaceWhenMove()
 		// 테트리스 로직 벡터 기준으로 테트로미노를 보기 위해서 _tetroPosX - _screenBoardStartPosX, _tetroPosY - _screenBoardStartPosY
 		int pos_X = _tetroPattern[_tetroRotationNum][tetroNum][0] + (_tetroPosX - _screenBoardStartPosX);
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY);
-																					  
+
 		// 테트로미노가 테트리스 로직 벡터 밖으로 넘어갔을 경우
-		if (pos_X < 0 || pos_X > (_boardW - 1))
+		if (pos_X < 0 || pos_X >(_boardW - 1))
 		{
 			_checkWall = true;
 			break;
@@ -463,9 +484,9 @@ void Tetris::CheckSpaceWhenDescent()
 		// 테트리스 로직 벡터 기준으로 테트로미노를 보기 위해서 _tetroPosX - _screenBoardStartPosX, _tetroPosY - _screenBoardStartPosY
 		int pos_X = _tetroPattern[_tetroRotationNum][tetroNum][0] + (_tetroPosX - _screenBoardStartPosX);
 		int pos_Y = _tetroPattern[_tetroRotationNum][tetroNum][1] + (_tetroPosY - _screenBoardStartPosY);
-	
+
 		// 테트로미노가 테트리스 로직 벡터 밖으로 넘어갔을 경우
-		if (pos_Y < 0 || pos_Y > (_boardH - 1))
+		if (pos_Y < 0 || pos_Y >(_boardH - 1))
 		{
 			_checkWall = true;
 			_contactTetroOrFloor = true; // 테트로미노 또는 바닥과 접촉을 확인
@@ -562,6 +583,12 @@ void Tetris::TetroPosInit()
 	_tetroPosY = 0 + _screenBoardStartPosY;
 	_tetroRotationNum = 0;
 
+	rotstop = 0;
+
+	tetro_move_weight.clear();
+	tetro_rotation_weight.clear();
+	tetro_movex.clear();
+
 	SelectTetro();
 }
 
@@ -611,7 +638,7 @@ void Tetris::LineSwap(int lineNum)
 		{
 			_tetrisLogicBoard[row][width] = _tetrisLogicBoard[row - 1][width];
 		}
-		
+
 		for (int width = 0; width < _boardW; width++)
 		{
 			_tetrisLogicBoard[row - 1][width] = temp[width];
@@ -659,6 +686,162 @@ void Tetris::PrintGameOver()
 	}
 }
 
+
+// ----------------------------- 추가함수 -----------------------------
+void Tetris::PressCKey()
+{
+	_pressCKey = true;
+}
+
+void Tetris::PressPKey()
+{
+	_pressCKey = false;
+}
+
+void Tetris::controlAi()
+{
+	if (_pressCKey == false)
+	{
+		return;
+	}
+
+	setMapWeight();
+	maxWeight();
+
+	if (_timeElapsed >= 0.2f / _tetroDescentSpeed)
+	{
+		rotateAi();
+		moveAi();
+	}
+}
+
+void Tetris::rotateAi()
+{
+
+	if (rotstop == 0) {
+
+		for (int i = 0; i < 4; i++) {
+
+			if (tetro_rotation_weight[max_weight_idx] == i) {
+				rotstop = 1;
+				break;
+			}
+
+			PressSpaceBarKey();
+			RotateTetro();
+		}
+	}
+}
+
+void Tetris::moveAi()
+{
+	for (int i = 0; i < 20; i++)
+	{
+
+		if (tetro_movex[max_weight_idx] < _tetroPosX)
+		{
+			PressAKey();
+			MoveTetro_Left();
+		}
+
+		else if (tetro_movex[max_weight_idx] > _tetroPosX)
+		{
+			PressDKey();
+			MoveTetro_Right();
+		}
+		else if (tetro_movex[max_weight_idx] == _tetroPosX)
+		{
+			break;
+		}
+	}
+}
+
+
+void Tetris::maxWeight() {
+
+	int weightsum = 0;
+	int weightsumtemp = 0;
+	int rotation = 0;
+	int x = 0;
+
+	vector<vector<vector<int>>> _tetroPattern_temp;
+	_tetroPattern_temp = _tetroPattern;
+
+	for (int i = 19; i > 0; i--)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			for (int rotate = 0; rotate < 4; rotate++)
+			{
+				weightsum = 0;
+
+				for (int tetroNum = 0; tetroNum < 4; tetroNum++)
+				{
+					int pos_X = _tetroPattern_temp[rotate][tetroNum][0] + j;
+					int pos_Y = _tetroPattern_temp[rotate][tetroNum][1] + i;
+
+					if (pos_Y < 0 || pos_Y >= 20)
+					{
+						break;
+					}
+
+					if (pos_X < 0 || pos_X >= 10)
+					{
+						break;
+					}
+
+					weightsum = weightsum + map[pos_Y][pos_X];
+					x = pos_X;
+				}
+
+				if (weightsum > weightsumtemp)
+				{
+					weightsumtemp = weightsum;
+					rotation = rotate;
+				}
+
+				tetro_move_weight.push_back(weightsumtemp);
+				tetro_movex.push_back(x);
+				tetro_rotation_weight.push_back(rotation);
+			}
+		}
+	}
+	max_weight_idx = int(max_element(tetro_move_weight.begin(), tetro_move_weight.end()) - tetro_move_weight.begin());
+}
+
+void Tetris::setMapWeight() { //map에 가중치 저장
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+
+			if (_tetrisLogicBoard[i][j].compare("  ") == 0)
+			{
+				if (i == 19) {
+					map[i][j] = i * 3;
+				}
+				else if (j == 0 || j == 9) {
+					map[i][j] = i * 2;
+				}
+				else {
+					map[i][j] = -i;
+				}
+			}
+			else {
+				map[i][j] = -20;
+			}
+		}
+	}
+
+}
+
+void Tetris::showKeySet()
+{
+	CursorPos(30, 10);
+	cout << "press 'C' play Ai";
+	CursorPos(30, 12);
+	cout << "press 'P' play Player";
+}
 
 
 // ----------------------------- 클래스밖 -----------------------------

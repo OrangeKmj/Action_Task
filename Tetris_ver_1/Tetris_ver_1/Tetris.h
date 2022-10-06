@@ -3,6 +3,7 @@
 #include <vector>
 #include <conio.h>
 #include <Windows.h>
+#include <algorithm>
 #pragma comment(lib, "winmm.lib")
 using namespace std;
 
@@ -31,7 +32,12 @@ enum GetKey
 	GETKEY_A = 65,
 	GETKEY_D = 68,
 	GETKEY_a = 97,
-	GETKEY_d = 100
+	GETKEY_d = 100,
+
+	GETKEY_C = 67,
+	GETKEY_c = 99,
+	GETKEY_P = 80,
+	GETKEY_p = 112
 };
 
 
@@ -163,16 +169,16 @@ public:
 
 	// ------------ 조작키로 테트로미노를  회전 및 좌우로 이동 ------------
 	void RotateTetro();
-	
+
 	void MoveTetro_Left();
 
 	void MoveTetro_Right();
 
-	
+
 
 	// - 테트로미노가 이동할 공간에 저장된 테트로미노 및 벽이 있는지 확인 -
 	void CheckSpaceWhenRotating();
-	
+
 	void CheckSpaceWhenMove();
 
 
@@ -194,7 +200,7 @@ public:
 	// ---------- 테트로미노를 테트리스 로직 및  화면 보드에 저장 ----------
 	void TetroStorage();
 
-	
+
 
 	// ---------------------- 테트로미노 위치 초기화 ----------------------
 	void TetroPosInit();
@@ -207,7 +213,7 @@ public:
 	void LineSwap(int lineNum);
 
 
-	
+
 	// -------------------------- 게임오버  확인 --------------------------
 	void CheckGameOver();
 
@@ -217,6 +223,21 @@ public:
 
 	// -------------------------- 게임오버  출력 --------------------------
 	void PrintGameOver();
+
+	//------------------------------ 추가함수 -----------------------------
+	void PressCKey();
+	void PressPKey();
+
+	void controlAi();	//Ai작동
+
+	void moveAi();	//목표좌표로 이동
+	void rotateAi();	//목표 로테이션으로 회전
+
+	void setMapWeight();	//가중치 설정
+
+	void maxWeight();	//최대 가중치
+
+	void showKeySet();
 
 private:
 	// ---------------------------- 멤버  변수 ----------------------------
@@ -263,6 +284,22 @@ private:
 	bool _preventInit; // 초기화 방지를 위한 변수
 
 	bool _isGameOver; // 게임오버 확인
+
+
+	//------------------------------- 추가변수 -------------------------------
+
+	bool _pressCKey; //C를 눌렀는지 확인
+
+	int rotstop;
+
+	int max_weight_idx;
+
+	vector<int> tetro_move_weight;
+	vector<int> tetro_movex;
+	vector<int> tetro_rotation_weight; //로테이션
+
+	int map[HEIGHT][WIDTH];
+
 };
 
 
