@@ -717,12 +717,12 @@ void Tetris::controlAi()
 
 void Tetris::rotateAi()
 {
-
 	if (rotstop == 0) {
 
-		for (int i = 0; i < 4; i++) {
-
-			if (tetro_rotation_weight[max_weight_idx] == i) {
+		for (int i = 0; i < 4; i++) 
+		{
+			if (tetro_rotation_weight[max_weight_idx] == i) 
+			{
 				rotstop = 1;
 				break;
 			}
@@ -738,18 +738,18 @@ void Tetris::moveAi()
 	for (int i = 0; i < 20; i++)
 	{
 
-		if (tetro_movex[max_weight_idx] < _tetroPosX)
+		if (tetro_movex[max_weight_idx] < 4)
 		{
 			PressAKey();
 			MoveTetro_Left();
 		}
 
-		else if (tetro_movex[max_weight_idx] > _tetroPosX)
+		else if (tetro_movex[max_weight_idx]  >  4)
 		{
 			PressDKey();
 			MoveTetro_Right();
 		}
-		else if (tetro_movex[max_weight_idx] == _tetroPosX)
+		else if (tetro_movex[max_weight_idx]  == 4)
 		{
 			break;
 		}
@@ -809,6 +809,7 @@ void Tetris::maxWeight() {
 	max_weight_idx = int(max_element(tetro_move_weight.begin(), tetro_move_weight.end()) - tetro_move_weight.begin());
 }
 
+
 void Tetris::setMapWeight() { //map에 가중치 저장
 	for (int i = 0; i < 20; i++)
 	{
@@ -818,13 +819,13 @@ void Tetris::setMapWeight() { //map에 가중치 저장
 			if (_tetrisLogicBoard[i][j].compare("  ") == 0)
 			{
 				if (i == 19) {
-					map[i][j] = i * 3;
-				}
-				else if (j == 0 || j == 9) {
 					map[i][j] = i * 2;
 				}
+				else if (j == 0 || j == 9) {
+					map[i][j] = i ;
+				}
 				else {
-					map[i][j] = -i;
+					map[i][j] = -20 + i;
 				}
 			}
 			else {
@@ -832,7 +833,6 @@ void Tetris::setMapWeight() { //map에 가중치 저장
 			}
 		}
 	}
-
 }
 
 void Tetris::showKeySet()
